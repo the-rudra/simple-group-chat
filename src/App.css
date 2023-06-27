@@ -25,6 +25,12 @@ body {
     box-sizing: border-box;
 }
 
+.App header h1 {
+    @media (max-width: 440px) {
+        font-size: 24px;
+    }
+}
+
 .App section {
     display: flex;
     flex-direction: column;
@@ -39,7 +45,7 @@ main {
     margin: 10vh 0 10vh;
     overflow-y: scroll;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
 }
 
 main::-webkit-scrollbar {

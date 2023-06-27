@@ -73,7 +73,7 @@ function ChatMessage(props) {
 
 function ChatRoom() {
     const messagesRef = firestore.collection("messages");
-    const query = messagesRef.orderBy("createdAt").limit(25);
+    const query = messagesRef.orderBy("createdAt", "desc").limit(50);
 
     const [messages] = useCollectionData(query, { idField: "id" });
 
@@ -84,7 +84,7 @@ function ChatRoom() {
     useEffect(() => {
         setTimeout(() => {
             dummy.current.scrollIntoView({ behavior: "auto" });
-        }, 100);
+        }, 300);
     }, []);
 
     const sendMesage = async (e) => {
@@ -96,6 +96,9 @@ function ChatRoom() {
             alert("Input is empty!");
             return;
         } else {
+            if (messages.length > 50) {
+            }
+
             await messagesRef.add({
                 text: formValue,
                 createdAt: firebase.firestore.FieldValue.serverTimestamp(),
@@ -104,7 +107,6 @@ function ChatRoom() {
             });
 
             setFormValue("");
-
             dummy.current.scrollIntoView({ behavior: "smooth" });
         }
     };
@@ -112,11 +114,11 @@ function ChatRoom() {
     return (
         <>
             <main>
+                <div ref={dummy}></div>
                 {messages &&
                     messages.map((msg) => (
                         <ChatMessage key={msg.id} message={msg} />
                     ))}
-                <div ref={dummy}></div>
             </main>
 
             <form onSubmit={sendMesage}>
